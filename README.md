@@ -1,5 +1,5 @@
-mongoose-autoREST
-=================
+mongoose-autoREST-smd
+=====================
 
 Auto generate basic REST APIs for mongoose models:
 -----------------
@@ -10,7 +10,7 @@ Auto generate basic REST APIs for mongoose models:
 
 var router = require('./router');
 
-router("User", "users", true, app);
+router("User", "users", true, app, [express.bodyParser()]);
 ```
 
 #### Creates
@@ -55,7 +55,8 @@ Complete example
 
 ```
 var mongoose = require('mongoose'),
-    app = require('express').createServer(),
+    express = require('express'),
+    app = express(),
     router = require('router');
 
 mongoose.connect("mongodb://localhost/userdb");
@@ -65,7 +66,7 @@ mongoose.model("User", new mongoose.Schema({
     lastName: String
 }));
 
-router("User", "users", true, app); 
+router("User", "users", true, app, [express.bodyParser()]);
 
 app.listen(3000);
 ```
