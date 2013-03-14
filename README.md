@@ -57,7 +57,7 @@ Complete example
 var mongoose = require('mongoose'),
     express = require('express'),
     app = express(),
-    router = require('router');
+    router = require('./router');
 
 mongoose.connect("mongodb://localhost/userdb");
 

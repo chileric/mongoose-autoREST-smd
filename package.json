@@ -1,0 +1,13 @@
+{
+    "name": "mock-services",
+    "description": "Provides a rest service implementation for Node.js.",
+    "version": "0.0.1",
+    "dojoBuild": "mock-services.js",
+    "dependencies": {
+        "mongoose": "3.5.7",
+        "mongoose-gen": "0.0.2",
+        "express": "3.1.0",
+        "fs": "0.0.0",
+        "requirejs": "2.1.5"
+    }
+}
