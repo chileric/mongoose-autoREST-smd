@@ -9,6 +9,6 @@
         "express": "3.1.0",
         "fs": "0.0.0",
         "requirejs": "2.1.5",
-        "circuits-js": "git://github.com/chileric/circuits-js.git"
+        "circuits-js": "git://github.com/atsid/circuits-js.git"
     }
 }
