@@ -1,5 +1,5 @@
 {
-    "name": "mock-services",
+    "name": "mongoose-autoREST-smd",
     "description": "Provides a rest service implementation for Node.js.",
     "version": "0.0.1",
     "dojoBuild": "mock-services.js",
@@ -8,6 +8,7 @@
         "mongoose-gen": "0.0.2",
         "express": "3.1.0",
         "fs": "0.0.0",
-        "requirejs": "2.1.5"
+        "requirejs": "2.1.5",
+        "circuits-js": "git://github.com/chileric/circuits-js.git"
     }
 }
