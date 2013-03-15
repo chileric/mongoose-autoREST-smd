@@ -9,7 +9,7 @@ var config = require('./config'),
     generator = require('mongoose-gen'),
     fs = require('fs'),
     requirejs = require('requirejs'),
-    servicesDir = __dirname + '/schema/services';
+    servicesDirFullPath = __dirname + '/' + config.servicesDir;
 
 requirejs.config({
     //Pass the top-level main.js/index.js require
@@ -22,18 +22,18 @@ var ZypSMDReader = requirejs('node_modules/circuits-js/src/main/ZypSMDReader'),
     mongooseConnection = mongoose.connect('mongodb://' + config.mongoHost + '/' + config.mongoDatabase);
 
 // Resolver for ZypSMDReader.
-var smdResolver = function (serviceName) {
-    return requirejs('schema/' + serviceName);
+var smdResolver = function (smd) {
+    return requirejs(config.servicesDir.substr(0, config.servicesDir.lastIndexOf('/'))  + '/' + smd);
 }
 
 generator.setConnection(mongooseConnection);
 
 // Generate Mongoose schema for each SMD file in 'services' directory
-fs.readdir(servicesDir, function(err, files) {
+fs.readdir(servicesDirFullPath, function(err, files) {
     files.filter(function(file) { return file.substr(-3) == '.js'; })
-        .forEach(function(file) { fs.readFile(servicesDir + '/' + file, 'UTF-8', function(err, data) {
+        .forEach(function(file) { fs.readFile(servicesDirFullPath + '/' + file, 'UTF-8', function(err, data) {
             if (err) throw err;
-            var smd = requirejs('schema/services/' + file.split('.')[0]),
+            var smd = requirejs(config.servicesDir + '/' + file.split('.')[0]),
                 reader = newReader(smd),
                 methodNames = reader.getMethodNames();
             for (var i = 0; i < methodNames.length; i++) {
