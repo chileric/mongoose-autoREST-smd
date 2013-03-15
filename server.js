@@ -18,7 +18,7 @@ requirejs.config({
     nodeRequire: require
 });
 
-var ZypSMDReader = requirejs('circuits-js/ZypSMDReader'),
+var ZypSMDReader = requirejs('node_modules/circuits-js/src/main/ZypSMDReader'),
     mongooseConnection = mongoose.connect('mongodb://' + config.mongoHost + '/' + config.mongoDatabase);
 
 // Resolver for ZypSMDReader.
