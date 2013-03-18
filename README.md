@@ -1,72 +1,63 @@
-mongoose-autoREST-smd
-=====================
+# mongoose-autoREST-smd
 
-Auto generate basic REST APIs for mongoose models:
------------------
+## Overview
+Mongoose-autoREST-smd is based off of [mongoose-autoREST](https://github.com/moonsspoon/mongoose-autoREST) by moonspoon.  It auto creates basic REST APIs for mongoose models that are generated from SMD files.
 
+## Installation / Configuration
+MongoDB must be installed and running before starting mongoose-autoREST-smd.  Default configuration settings can be modified in the config.js file.  To install and run mongoose-autoREST-smd, run the following commands:
+````
+npm install
+npm start
+````
+
+## Usage
+
+#### ExampleService.js
 ```javascript
-
-//router({modelName}, {path}, {autoRoute}, {expressServer}, {middleWare})
-
-var router = require('./router');
-
-router("User", "users", true, app, [express.bodyParser()]);
-```
-
-#### Creates
-
-```
-GET   	/users
-GET   	/users/:id
-POST  	/users/:id
-PUT   	/users/:id
-DELETE	/users/:id 
-```
-
-#### Mongoose query/options examples
- ```
-GET 	/users?query={"firstName": "Bill"}
-GET 	/users?query={"firstName": "Bill", "lastName": "Leegard"}
-GET 	/users?sort=[["firstName, -1"]]
-GET 	/users?fields=["firstName", "lastName"]
-GET     /users?sort=[["firstName, -1"]]&skip=5&limit=10
- ```
-
-
-Use as middleware
------------------
-
-```
-var router = require('./router'),
-    userRouter = router("User");    
-
-app.get('/users', [userRouter.index], function (req, res) {
-    var allUsers = req.docs;
-});
-
-app.get('/users/:id', [userRouter.show], function (req, res) {
-    var user = req.docs;
+define({
+    "id": "Schema/SimpleTestBaseServiceSchema",
+    "SMDVersion": "2.0",
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "transport": "REST",
+    "envelope": "PATH",
+    "description": "Test Service Methods.",
+    "contentType": "application/json",
+    "target": "/exampleModels",
+    "services": {
+        "getModel": {
+            "transport": "GET",
+            "description": "get a Model.",
+            "payload": "",
+            "returns": {
+                "$ref": "models/ExampleModel"
+            }
+        }
+    }
 });
 ```
 
-
-Complete example
------------------
+#### ExampleModel.js
+````javascript
+define({
+    "id": "schema/models/ExampleModel",
+    "description": "A simple model for testing",
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "type": "object",
+    "properties": {
+        "modelNumber": {
+            "type": "string",
+            "description": "The number of the model.",
+            "required": true
+        }
+    }
+});
+````
+Running mongoose-autoREST-smd with the two SMD files defined above, would auto create the following REST APIs:
 
 ```
-var mongoose = require('mongoose'),
-    express = require('express'),
-    app = express(),
-    router = require('./router');
-
-mongoose.connect("mongodb://localhost/userdb");
-
-mongoose.model("User", new mongoose.Schema({
-    firstName: String,
-    lastName: String
-}));
-
-router("User", "users", true, app, [express.bodyParser()]);
-
-app.listen(3000);
+GET   	/exampleModels
+GET   	/exampleModels/:id
+POST  	/exampleModels/:id
+PUT   	/exampleModels/:id
+DELETE	/exampleModels/:id 
 ```
